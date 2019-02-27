@@ -6,11 +6,11 @@
  * @param iterable $a
  * @return int|null
  */
-function solution(iterable $a): ?int
+function solution(iterable $a): int
 {
-    $top = 0;
-    $bottom = 0;
-    $depth = 0;
+    $top = null;
+    $bottom = null;
+    $depth = null;
 
     foreach ($a as $altitude) {
         if ($top <= $altitude) {
@@ -28,12 +28,20 @@ function solution(iterable $a): ?int
             if (!$bottom || $bottom > $altitude) {
                 $bottom = $altitude;
             }
+
+            if ($bottom < $altitude) {
+                $tmpDepth = $altitude - $bottom;
+
+                if (!$depth || $depth < $tmpDepth) {
+                    $depth = $tmpDepth;
+                }
+            }
         }
     }
 
-    return $depth;
+    return $depth ?? 0;
 }
 
-$n = [3, 50, 2, 4, 9, 11, 2, 50, 1, 9];
+$n = [3, 1, 2, 2, 4, 3];
 
 print_r(solution($n) . PHP_EOL);
